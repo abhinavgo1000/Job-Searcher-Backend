@@ -1,0 +1,19 @@
+# --- Web API ---
+Flask==3.0.3
+flask-cors==4.0.0
+
+# --- Async HTTP client for providers (Amazon / Workday / Netflix) ---
+httpx==0.27.0
+
+# --- Data models / validation ---
+pydantic==2.8.2
+typing-extensions>=4.12.2
+
+# --- OpenAI Agents SDK (for structured/typed agent output) ---
+openai-agents>=0.2.0
+
+# --- (Optional) ASGI server if you switch to async Flask/FastAPI ---
+# uvicorn[standard]==0.30.0
+
+# --- (Optional) env file support if you add secrets later ---
+# python-dotenv==1.0.1

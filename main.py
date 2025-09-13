@@ -27,7 +27,10 @@ from agents import Agent, Runner
 app = Flask(__name__)
 CORS(app)
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(levelname)s:%(name)s:%(message)s"
+)
 log = logging.getLogger("jobs")
 
 # -----------------------------------------------------------------------------
@@ -78,13 +81,24 @@ async def gather_jobs_india(
         tasks.append(_wrap_fetch_amazon(fullstack_query, city))
 
     # Workday tenants
+    wd_param = request.args.get("workday", "").strip()
+    workday_targets = None
+    if wd_param:
+        triples = []
+        for part in wd_param.split(","):
+            try:
+                host, site, hint = part.split(":")
+                triples.append((host, site, hint))
+            except ValueError:
+                continue
+        if triples:
+            workday_targets = triples
+
     workday_targets = workday_targets or [
-        # (tenant, site, company_hint)
-        ("pwc", "Global_Experienced_Careers", "pwc"),
-        # Add more: ("<tenant>", "<site>", "<company_hint>")
+        ("pwc.wd3.myworkdayjobs.com", "Global_Experienced_Careers", "pwc"),
     ]
-    for tenant, site, company_hint in workday_targets:
-        tasks.append(_wrap_fetch_workday(tenant, site, company_hint, fullstack_query))
+    for host, site, hint in workday_targets:
+        tasks.append(_wrap_fetch_workday(host, site, hint, fullstack_query))
 
     # Netflix
     if include_netflix:
@@ -109,10 +123,10 @@ async def _wrap_fetch_amazon(q: str, city: Optional[str]) -> List[JobPosting]:
     log.info("[amazon] %d rows (India-filtered)", len(jobs))
     return jobs
 
-async def _wrap_fetch_workday(tenant: str, site: str, company_hint: str, q: str) -> List[JobPosting]:
-    rows = await fetch_workday_jobs(tenant, site, search_text=q, limit=50, offset=0)
-    jobs = norm_workday(rows, company_hint=company_hint)  # norm filters to India inside
-    log.info("[workday:%s/%s] %d rows", tenant, site, len(jobs))
+async def _wrap_fetch_workday(host: str, site: str, company_hint: str, q: str) -> List[JobPosting]:
+    rows = await fetch_workday_jobs(host, site, search_text=q, limit=50, offset=0)
+    jobs = norm_workday(rows, company_hint=company_hint)  # keeps India-only
+    log.info("[workday:%s/%s] %d rows", host, site, len(jobs))
     return jobs
 
 async def _wrap_fetch_netflix() -> List[JobPosting]:

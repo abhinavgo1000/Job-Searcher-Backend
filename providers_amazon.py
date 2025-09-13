@@ -1,7 +1,18 @@
+from __future__ import annotations
+
 from typing import List, Dict, Any, Optional
 import httpx
+import logging
 
-AMZ_BASE = "https://www.amazon.jobs/search.json"
+log = logging.getLogger(__name__)
+
+AMZ_BASE = "https://www.amazon.jobs/en/search.json"  # note /en/
+
+HEADERS = {
+    "Accept": "application/json, text/plain, */*",
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome Safari",
+    "Referer": "https://www.amazon.jobs/en/search",
+}
 
 async def _fetch_page(
     client: httpx.AsyncClient,
@@ -12,36 +23,46 @@ async def _fetch_page(
 ) -> List[Dict[str, Any]]:
     params = {
         "base_query": query or "",
-        "loc_query": loc_query or "India",
+        "loc_query": (loc_query or "India"),
         "result_limit": result_limit,
         "offset": offset,
-        # These mirror the site’s filters; harmless if the API ignores extras.
         "facets[]": [
-            "location",
-            "business_category",
-            "category",
-            "schedule_type_id",
-            "employee_class",
-            "normalized_location",
-            "job_function_id",
+            "location","business_category","category","schedule_type_id",
+            "employee_class","normalized_location","job_function_id",
         ],
         "sort": "recent",
     }
-    r = await client.get(AMZ_BASE, params=params, headers={"Accept": "application/json"})
-    r.raise_for_status()
-    data = r.json()
+    r = await client.get(AMZ_BASE, params=params, headers=HEADERS, follow_redirects=True)
+    try:
+        r.raise_for_status()
+        data = r.json()
+    except Exception as e:
+        log.exception("Amazon page fetch failed: %s %s", r.status_code, r.text[:400])
+        raise
     return data.get("jobs", []) or []
+
+def _is_india(rec: Dict[str, Any]) -> bool:
+    loc = (rec.get("normalized_location")
+           or rec.get("city_state_or_country")
+           or rec.get("location") or "")
+    s = str(loc).lower()
+    # accept common forms
+    return any(token in s for token in ("india", ", in", " ind", "(in)", " in "))
+
+def _city_matches(rec: Dict[str, Any], city: str | None) -> bool:
+    if not city:
+        return True
+    loc = (rec.get("normalized_location")
+           or rec.get("city_state_or_country")
+           or rec.get("location") or "")
+    return city.lower() in str(loc).lower()
 
 async def fetch_amazon_india(
     query: str = "Full Stack",
-    loc_query: Optional[str] = None,    # e.g., "Bengaluru" to narrow; defaults to India-wide
+    loc_query: Optional[str] = None,
     page_size: int = 50,
-    max_pages: int = 5,                 # safety cap
+    max_pages: int = 5,
 ) -> List[Dict[str, Any]]:
-    """
-    Fetches Amazon jobs and returns the raw 'jobs' objects from amazon.jobs.
-    We paginate with offset until no items, or we hit max_pages.
-    """
     rows: List[Dict[str, Any]] = []
     async with httpx.AsyncClient(timeout=30) as client:
         for page in range(max_pages):
@@ -50,11 +71,10 @@ async def fetch_amazon_india(
             if not page_rows:
                 break
             rows.extend(page_rows)
-            # If fewer than page_size, likely the last page
             if len(page_rows) < page_size:
                 break
-    # Client-side India filter, just in case
-    def in_india(rec: Dict[str, Any]) -> bool:
-        loc = (rec.get("normalized_location") or rec.get("city_state_or_country") or rec.get("location") or "")
-        return "india" in str(loc).lower()
-    return [r for r in rows if in_india(r)]
+
+    rows = [r for r in rows if _is_india(r)]
+    if loc_query:
+        rows = [r for r in rows if _city_matches(r, loc_query)]
+    return rows

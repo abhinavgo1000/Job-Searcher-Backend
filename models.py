@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import List, Optional, Literal
 from pydantic import BaseModel, Field
 
@@ -9,6 +11,7 @@ class Compensation(BaseModel):
     notes: Optional[str] = None  # e.g., “plus equity”
 
 class JobPosting(BaseModel):
+    id: str | None = Field(default=None, description="Deterministic id if url/job_id present, else random")
     source: str = Field(..., description="greenhouse, lever, etc.")
     company: str
     title: str

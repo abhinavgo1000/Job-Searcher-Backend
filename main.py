@@ -3,6 +3,10 @@ from __future__ import annotations
 import asyncio
 import logging
 from typing import List, Optional
+import json
+import yaml
+from pathlib import Path
+from flask_swagger_ui import get_swaggerui_blueprint
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS
@@ -26,6 +30,10 @@ from agents import Agent, Runner
 # -----------------------------------------------------------------------------
 app = Flask(__name__)
 CORS(app)
+
+OPENAPI_PATH = Path(__file__).parent / "openapi.yaml"
+SWAGGER_URL = "/docs"          # UI
+OPENAPI_URL = "/openapi.json"  # what the UI will load
 
 logging.basicConfig(
     level=logging.INFO,
@@ -218,6 +226,30 @@ def jobs_endpoint():
             # fall back to raw normalized output
 
     return jsonify([j.model_dump() for j in jobs])
+
+@app.get("/openapi.yaml")
+def openapi_yaml():
+    # Serve the raw YAML file
+    return app.send_static_file("openapi.yaml") if (Path(app.root_path) / "openapi.yaml").exists() \
+        else (OPENAPI_PATH.read_text(), 200, {"Content-Type": "application/yaml"})
+
+@app.get("/openapi.json")
+def openapi_json():
+    # Convert YAML → JSON on the fly for Swagger UI
+    spec = yaml.safe_load(OPENAPI_PATH.read_text())
+    return app.response_class(
+        response=json.dumps(spec),
+        status=200,
+        mimetype="application/json",
+    )
+
+swaggerui_blueprint = get_swaggerui_blueprint(
+    SWAGGER_URL,              # UI served at /docs
+    OPENAPI_URL,              # OpenAPI served at /openapi.json
+    config={ "app_name": "Job Searcher Backend" }
+)
+app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
+
 
 # -----------------------------------------------------------------------------
 # Entrypoint

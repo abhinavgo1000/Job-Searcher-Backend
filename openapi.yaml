@@ -1,0 +1,175 @@
+openapi: 3.0.3
+info:
+  title: Job Searcher Backend API
+  version: 1.0.0
+  description: >
+    Aggregates public job listings (Amazon India, Workday tenants like PwC India,
+    Netflix/Eightfold), normalizes to a common schema, and optionally validates
+    via an OpenAI Agents SDK enforcer.
+servers:
+  - url: http://localhost:5057
+paths:
+  /jobs:
+    get:
+      tags: [Jobs]
+      summary: List normalized job postings
+      description: >
+        Returns a normalized list of job postings. Set `strict=false` to bypass
+        the Agent validator and return raw normalized results from providers.
+      parameters:
+        - in: query
+          name: q
+          schema:
+            type: string
+            default: Full Stack
+          description: Keyword(s) to search (any-token match).
+        - in: query
+          name: location
+          schema:
+            type: string
+          description: Optional substring match against the normalized location.
+        - in: query
+          name: city
+          schema:
+            type: string
+          description: Narrow Amazon India results server-side (e.g., "Bengaluru").
+        - in: query
+          name: strict
+          schema:
+            type: boolean
+            default: true
+          description: >
+            If true, pass results through the Agents SDK enforcer (strict, typed output).
+            If false, return raw normalized results.
+        - in: query
+          name: include_amazon
+          schema:
+            type: boolean
+            default: true
+          description: Toggle Amazon India provider.
+        - in: query
+          name: include_netflix
+          schema:
+            type: boolean
+            default: true
+          description: Toggle Netflix (Eightfold) provider.
+        - in: query
+          name: workday
+          schema:
+            type: string
+            example: pwc.wd3.myworkdayjobs.com:Global_Experienced_Careers:pwc
+          description: >
+            Comma-separated Workday targets as `host:site:company_hint`.
+            Example for two tenants:
+            `pwc.wd3.myworkdayjobs.com:Global_Experienced_Careers:pwc,another.wd5.myworkdayjobs.com:Careers:another`
+      responses:
+        "200":
+          description: Array of job postings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/JobPosting'
+              examples:
+                sample:
+                  value:
+                    - id: "a3b4d9e12f0c4b8a"
+                      source: "amazon"
+                      company: "Amazon"
+                      title: "Full Stack Engineer, Prime Video"
+                      location: "Bengaluru, KA, IN"
+                      remote: false
+                      tech_stack: ["javascript","typescript","react","node","aws"]
+                      compensation: null
+                      url: "https://www.amazon.jobs/en/jobs/123456/full-stack-engineer"
+                      job_id: "123456"
+                      description_snippet: "Design and build scalable full-stack services…"
+                    - id: "c1d2e3f4a5b6c7d8"
+                      source: "workday"
+                      company: "Pwc"
+                      title: "Full Stack Developer"
+                      location: "Bengaluru, India"
+                      remote: null
+                      tech_stack: ["python","django","react","aws"]
+                      compensation: null
+                      url: "https://pwc.wd3.myworkdayjobs.com/en-US/Global_Experienced_Careers/job/..."
+                      job_id: "R-98765"
+                      description_snippet: "Build internal tools and client-facing web apps…"
+components:
+  schemas:
+    Compensation:
+      type: object
+      additionalProperties: false
+      properties:
+        currency:
+          type: string
+          description: ISO code like USD, EUR, INR
+          example: INR
+        min:
+          type: number
+          example: 1800000
+        max:
+          type: number
+          example: 2800000
+        period:
+          type: string
+          enum: [hour, day, month, year, total]
+          example: year
+        notes:
+          type: string
+          example: plus ESOPs
+    JobPosting:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - source
+        - company
+        - title
+        - tech_stack
+      properties:
+        id:
+          type: string
+          description: >
+            Stable hash of (source|job_id|url) when available, else random uuid4 hex.
+          example: "a3b4d9e12f0c4b8a"
+        source:
+          type: string
+          description: Provider identifier (e.g., amazon, workday, netflix).
+          example: amazon
+        company:
+          type: string
+          example: Amazon
+        title:
+          type: string
+          example: Full Stack Engineer
+        location:
+          type: string
+          nullable: true
+          example: Bengaluru, KA, IN
+        remote:
+          type: boolean
+          nullable: true
+          example: false
+        tech_stack:
+          type: array
+          items:
+            type: string
+          example: ["javascript","typescript","react","node","aws"]
+        compensation:
+          $ref: '#/components/schemas/Compensation'
+        url:
+          type: string
+          nullable: true
+          description: HTTP(S) job URL as a string.
+          example: https://www.amazon.jobs/en/jobs/123456/full-stack-engineer
+        job_id:
+          type: string
+          nullable: true
+          description: Native provider ID if available.
+          example: "123456"
+        description_snippet:
+          type: string
+          nullable: true
+          example: Short teaser text from the posting…

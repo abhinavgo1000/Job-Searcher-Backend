@@ -1,5 +1,6 @@
 from typing import List, Dict, Any
-from models import JobPosting, Compensation
+from models.models import JobPosting
+
 
 def norm_workday(rows: List[Dict[str, Any]], company_hint: str) -> List[JobPosting]:
     out = []

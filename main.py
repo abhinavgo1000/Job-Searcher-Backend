@@ -8,15 +8,15 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 
 # ---- Your schema ----
-from models import JobPosting
+from models.models import JobPosting
 
 # ---- Providers (async) ----
-from providers_amazon import fetch_amazon_india
-from providers_workday import fetch_workday_jobs
-from providers_netflix import fetch_netflix_positions
+from providers.providers_amazon import fetch_amazon_india
+from providers.providers_workday import fetch_workday_jobs
+from providers.providers_netflix import fetch_netflix_positions
 
 # ---- Normalizers (sync) ----
-from normalize_india import norm_workday, norm_netflix, normalize_amazon_india
+from normalizers.normalize_india import norm_workday, norm_netflix, normalize_amazon_india
 
 # ---- (Optional) Agents SDK strict enforcer ----
 from agents import Agent, Runner

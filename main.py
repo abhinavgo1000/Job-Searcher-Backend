@@ -11,7 +11,7 @@ from flask_swagger_ui import get_swaggerui_blueprint
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
-# ---- Your schema ----
+# ---- Schema ----
 from models.models import JobPosting
 
 # ---- Providers (async) ----
@@ -22,7 +22,7 @@ from providers.providers_netflix import fetch_netflix_positions
 # ---- Normalizers (sync) ----
 from normalizers.normalize_india import norm_workday, norm_netflix, normalize_amazon_india
 
-# ---- (Optional) Agents SDK strict enforcer ----
+# ---- Agents SDK strict enforcer ----
 from agents import Agent, Runner
 
 # -----------------------------------------------------------------------------

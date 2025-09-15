@@ -5,6 +5,7 @@ import logging
 from typing import List, Optional
 import json
 import yaml
+from dotenv import load_dotenv
 from pathlib import Path
 from flask_swagger_ui import get_swaggerui_blueprint
 
@@ -30,6 +31,8 @@ from agents import Agent, Runner
 # -----------------------------------------------------------------------------
 app = Flask(__name__)
 CORS(app)
+
+load_dotenv()
 
 OPENAPI_PATH = Path(__file__).parent / "openapi.yaml"
 SWAGGER_URL = "/docs"          # UI

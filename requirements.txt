@@ -8,6 +8,7 @@ httpx==0.28.1
 
 # --- Data models / validation ---
 pydantic==2.11.8
+python-dotenv==1.1.1
 typing-extensions>=4.12.2
 pyyaml==6.0.2
 

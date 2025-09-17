@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3e888351-81ee-4320-b400-ea1e90c06512" name="Changes" comment="dotenv load added" />
+    <list default="true" id="3e888351-81ee-4320-b400-ea1e90c06512" name="Changes" comment="workspace updated">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -171,7 +173,15 @@
       <option name="project" value="LOCAL" />
       <updated>1757936736606</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="workspace updated">
+      <option name="closed" value="true" />
+      <created>1757939809491</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1757939809491</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -193,9 +203,9 @@
     <MESSAGE value="fix added for blank data showing" />
     <MESSAGE value="file structure refactored" />
     <MESSAGE value="swagger ui added" />
-    <MESSAGE value="workspace updated" />
     <MESSAGE value="comment text updated" />
     <MESSAGE value="dotenv load added" />
-    <option name="LAST_COMMIT_MESSAGE" value="dotenv load added" />
+    <MESSAGE value="workspace updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="workspace updated" />
   </component>
 </project>

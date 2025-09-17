@@ -18,7 +18,7 @@ Aggregates public job listings from **Amazon India**, **Workday** tenants (e.g.,
 ## Quickstart
 
 ```bash
-git clone <your-repo>
+git clone https://github.com/abhinavgo1000/Job-Searcher-Backend.git
 cd Job-Searcher-Backend
 
 python -m venv .venv

@@ -249,8 +249,10 @@ def save_job():
     return jsonify({"message": "Job saved successfully!"}), 201
 
 @app.get("/saved-jobs")
-def fetch_saved_jons():
-    jobs = saved_jobs.find({})
+def fetch_saved_jobs():
+    jobs = list(saved_jobs.find({}))
+    for job in jobs:
+        job["_id"] = str(job["_id"])  # Convert ObjectId to string
     return jsonify(jobs), 200
 
 @app.get("/openapi.yaml")

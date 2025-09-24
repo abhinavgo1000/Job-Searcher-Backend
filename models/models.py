@@ -25,3 +25,8 @@ class JobPosting(BaseModel):
     )
     job_id: Optional[str] = None
     description_snippet: Optional[str] = None
+
+class JobInsights(BaseModel):
+    skill_set: List[str] = Field(default_factory=list, description="A collection of skills needed for this role")
+    job_post: JobPosting
+    summary: str

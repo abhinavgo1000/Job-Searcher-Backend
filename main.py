@@ -5,12 +5,19 @@ import logging
 from typing import List, Optional
 import json
 import yaml
+import os
+import certifi
 from dotenv import load_dotenv
 from pathlib import Path
+from agents import Runner
 from flask_swagger_ui import get_swaggerui_blueprint
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from pymongo import MongoClient
+
+# ---- Agents ----
+from ai_agents.job_agents import enforcer
 
 # ---- Schema ----
 from models.models import JobPosting
@@ -23,16 +30,28 @@ from providers.providers_netflix import fetch_netflix_positions
 # ---- Normalizers (sync) ----
 from normalizers.normalize_india import norm_workday, norm_netflix, normalize_amazon_india
 
-# ---- Agents SDK strict enforcer ----
-from agents import Agent, Runner
-
 # -----------------------------------------------------------------------------
 # App + logging
 # -----------------------------------------------------------------------------
 app = Flask(__name__)
 CORS(app)
 
+# -----------------------------------------------------------------------------
+# Environment variables load
+# -----------------------------------------------------------------------------
 load_dotenv()
+mongo_user = os.getenv("MONGODB_USER")
+mongo_password = os.getenv("MONGODB_PASSWORD")
+mongo_host = os.getenv("MONGODB_HOST")
+mongo_db = os.getenv("MONGODB_DB")
+
+# -----------------------------------------------------------------------------
+# MongoDB initialize
+# -----------------------------------------------------------------------------
+uri = f"mongodb+srv://{mongo_user}:{mongo_password}@{mongo_host}/?retryWrites=true&w=majority&appName={mongo_db}"
+client = MongoClient(uri, tlsCAFile=certifi.where())
+db = client['jobs']
+saved_jobs = db['saved-jobs']
 
 OPENAPI_PATH = Path(__file__).parent / "openapi.yaml"
 SWAGGER_URL = "/docs"          # UI
@@ -48,16 +67,7 @@ log = logging.getLogger("jobs")
 # Enforcer Agent (optional)
 # -----------------------------------------------------------------------------
 # NOTE: Ensure models.JobPosting uses url: Optional[str]
-from typing import List as _List
 
-enforcer = Agent(
-    name="JobsNormalizerIndia",
-    instructions=(
-        "Return ONLY a JSON array of JobPosting objects. "
-        "Do not invent salary; infer tech_stack only if clearly evidenced in title/description."
-    ),
-    output_type=_List[JobPosting],
-)
 
 def enforce_jobs_strict(jobs: List[JobPosting]) -> List[JobPosting]:
     """Run the agent to validate/repair structure (sync wrapper for Flask)."""
@@ -229,6 +239,19 @@ def jobs_endpoint():
             # fall back to raw normalized output
 
     return jsonify([j.model_dump() for j in jobs])
+
+@app.post("/save-job")
+def save_job():
+    data = request.get_json()
+    job = JobPosting(**data)
+    result = saved_jobs.insert_one(job.model_dump())
+    print(result.acknowledged)
+    return jsonify({"message": "Job saved successfully!"}), 201
+
+@app.get("/saved-jobs")
+def fetch_saved_jons():
+    jobs = saved_jobs.find({})
+    return jsonify(jobs), 200
 
 @app.get("/openapi.yaml")
 def openapi_yaml():

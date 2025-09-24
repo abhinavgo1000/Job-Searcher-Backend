@@ -112,6 +112,46 @@ paths:
       responses:
         "200":
           description: The insights of the selected job
+  /saved-jobs:
+    get:
+      tags: [ Jobs ]
+      summary: List job postings saved in database
+      description: >
+        Returns a normalized list of job postings saved in the `saved-jobs` collection in MongoDB database.
+      responses:
+        "200":
+          description: Array of job postings saved in database
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/JobPosting'
+              examples:
+                sample:
+                  value:
+                    - id: "a3b4d9e12f0c4b8a"
+                      source: "amazon"
+                      company: "Amazon"
+                      title: "Full Stack Engineer, Prime Video"
+                      location: "Bengaluru, KA, IN"
+                      remote: false
+                      tech_stack: [ "javascript","typescript","react","node","aws" ]
+                      compensation: null
+                      url: "https://www.amazon.jobs/en/jobs/123456/full-stack-engineer"
+                      job_id: "123456"
+                      description_snippet: "Design and build scalable full-stack services…"
+                    - id: "c1d2e3f4a5b6c7d8"
+                      source: "workday"
+                      company: "Pwc"
+                      title: "Full Stack Developer"
+                      location: "Bengaluru, India"
+                      remote: null
+                      tech_stack: [ "python","django","react","aws" ]
+                      compensation: null
+                      url: "https://pwc.wd3.myworkdayjobs.com/en-US/Global_Experienced_Careers/job/..."
+                      job_id: "R-98765"
+                      description_snippet: "Build internal tools and client-facing web apps…"
   /save-job:
     post:
       tags: [ Jobs ]
@@ -152,6 +192,54 @@ paths:
                       url: "https://pwc.wd3.myworkdayjobs.com/en-US/Global_Experienced_Careers/job/..."
                       job_id: "R-98765"
                       description_snippet: "Build internal tools and client-facing web apps…"
+  /delete-jobs:
+    delete:
+      tags: [ Jobs ]
+      summary: Delete one or more saved job postings
+      description: >
+        Deletes one or more job postings from the `saved-jobs` collection in MongoDB by their IDs.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ids:
+                  type: array
+                  items:
+                    type: string
+                  description: List of job posting MongoDB _id values to delete.
+              required:
+                - ids
+            examples:
+              sample:
+                value:
+                  ids: [ "6510e1e6e1b2c8e1f0a1b2c3", "6510e1e6e1b2c8e1f0a1b2c4" ]
+      responses:
+        "200":
+          description: Number of deleted jobs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted_count:
+                    type: integer
+                    description: Number of jobs deleted
+                example:
+                  deleted_count: 2
+        "400":
+          description: Invalid request (no or invalid IDs provided)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                example:
+                  error: No IDs provided
 components:
   schemas:
     Compensation:

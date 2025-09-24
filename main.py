@@ -7,6 +7,7 @@ import json
 import yaml
 import os
 import certifi
+from bson import ObjectId
 from dotenv import load_dotenv
 from pathlib import Path
 from agents import Runner
@@ -254,6 +255,27 @@ def fetch_saved_jobs():
     for job in jobs:
         job["_id"] = str(job["_id"])  # Convert ObjectId to string
     return jsonify(jobs), 200
+
+@app.delete("/delete-jobs")
+def delete_jobs():
+    data = request.get_json()
+    ids = data.get("ids", [])
+    if not ids:
+        return jsonify({"error": "No IDs provided"}), 400
+
+    # Convert string IDs to ObjectId
+    object_ids = []
+    for id_str in ids:
+        try:
+            object_ids.append(ObjectId(id_str))
+        except Exception:
+            continue
+
+    if not object_ids:
+        return jsonify({"error": "No valid IDs provided"}), 400
+
+    result = saved_jobs.delete_many({"_id": {"$in": object_ids}})
+    return jsonify({"deleted_count": result.deleted_count}), 200
 
 @app.get("/openapi.yaml")
 def openapi_yaml():

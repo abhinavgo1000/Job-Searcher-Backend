@@ -256,25 +256,17 @@ def fetch_saved_jobs():
         job["_id"] = str(job["_id"])  # Convert ObjectId to string
     return jsonify(jobs), 200
 
-@app.delete("/delete-jobs")
-def delete_jobs():
-    data = request.get_json()
-    ids = data.get("ids", [])
-    if not ids:
-        return jsonify({"error": "No IDs provided"}), 400
+@app.delete("/delete-jobs/<string:job_id>")
+def delete_job(job_id):
+    try:
+        object_id = ObjectId(job_id)
+    except Exception:
+        return jsonify({"error": "Invalid job ID"}), 400
 
-    # Convert string IDs to ObjectId
-    object_ids = []
-    for id_str in ids:
-        try:
-            object_ids.append(ObjectId(id_str))
-        except Exception:
-            continue
+    result = saved_jobs.delete_one({"_id": object_id})
+    if result.deleted_count == 0:
+        return jsonify({"error": "Job not found"}), 404
 
-    if not object_ids:
-        return jsonify({"error": "No valid IDs provided"}), 400
-
-    result = saved_jobs.delete_many({"_id": {"$in": object_ids}})
     return jsonify({"deleted_count": result.deleted_count}), 200
 
 @app.get("/openapi.yaml")

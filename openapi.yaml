@@ -192,33 +192,22 @@ paths:
                       url: "https://pwc.wd3.myworkdayjobs.com/en-US/Global_Experienced_Careers/job/..."
                       job_id: "R-98765"
                       description_snippet: "Build internal tools and client-facing web apps…"
-  /delete-jobs:
+  /delete-jobs/{job_id}:
     delete:
       tags: [ Jobs ]
-      summary: Delete one or more saved job postings
+      summary: Delete a single saved job posting by its MongoDB _id
       description: >
-        Deletes one or more job postings from the `saved-jobs` collection in MongoDB by their IDs.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                ids:
-                  type: array
-                  items:
-                    type: string
-                  description: List of job posting MongoDB _id values to delete.
-              required:
-                - ids
-            examples:
-              sample:
-                value:
-                  ids: [ "6510e1e6e1b2c8e1f0a1b2c3", "6510e1e6e1b2c8e1f0a1b2c4" ]
+        Deletes a single job posting from the `saved-jobs` collection in MongoDB by its `_id`.
+      parameters:
+        - in: path
+          name: job_id
+          required: true
+          schema:
+            type: string
+          description: The MongoDB ObjectId of the job posting to delete.
       responses:
         "200":
-          description: Number of deleted jobs
+          description: Job deleted successfully
           content:
             application/json:
               schema:
@@ -226,11 +215,11 @@ paths:
                 properties:
                   deleted_count:
                     type: integer
-                    description: Number of jobs deleted
+                    description: Number of jobs deleted (should be 1 if successful)
                 example:
-                  deleted_count: 2
+                  deleted_count: 1
         "400":
-          description: Invalid request (no or invalid IDs provided)
+          description: Invalid job ID
           content:
             application/json:
               schema:
@@ -239,7 +228,18 @@ paths:
                   error:
                     type: string
                 example:
-                  error: No IDs provided
+                  error: Invalid job ID
+        "404":
+          description: Job not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                example:
+                  error: Job not found
 components:
   schemas:
     Compensation:

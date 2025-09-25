@@ -18,7 +18,7 @@ from flask_cors import CORS
 from pymongo import MongoClient
 
 # ---- Agents ----
-from ai_agents.job_agents import enforcer
+from ai_agents.job_agents import job_manager
 
 # ---- Schema ----
 from models.models import JobPosting
@@ -74,7 +74,7 @@ def enforce_jobs_strict(jobs: List[JobPosting]) -> List[JobPosting]:
     """Run the agent to validate/repair structure (sync wrapper for Flask)."""
     payload = [j.model_dump() for j in jobs]
     result = asyncio.run(Runner.run(
-        enforcer,
+        job_manager,
         input=("Validate and strictly conform to JobPosting[].\n\n" + str(payload))
     ))
     return result.final_output

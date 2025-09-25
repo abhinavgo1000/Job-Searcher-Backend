@@ -170,28 +170,17 @@ paths:
               examples:
                 sample:
                   value:
-                    - id: "a3b4d9e12f0c4b8a"
-                      source: "amazon"
-                      company: "Amazon"
-                      title: "Full Stack Engineer, Prime Video"
-                      location: "Bengaluru, KA, IN"
-                      remote: false
-                      tech_stack: [ "javascript","typescript","react","node","aws" ]
-                      compensation: null
-                      url: "https://www.amazon.jobs/en/jobs/123456/full-stack-engineer"
-                      job_id: "123456"
-                      description_snippet: "Design and build scalable full-stack services…"
-                    - id: "c1d2e3f4a5b6c7d8"
-                      source: "workday"
-                      company: "Pwc"
-                      title: "Full Stack Developer"
-                      location: "Bengaluru, India"
-                      remote: null
-                      tech_stack: [ "python","django","react","aws" ]
-                      compensation: null
-                      url: "https://pwc.wd3.myworkdayjobs.com/en-US/Global_Experienced_Careers/job/..."
-                      job_id: "R-98765"
-                      description_snippet: "Build internal tools and client-facing web apps…"
+                    id: "a3b4d9e12f0c4b8a"
+                    source: "amazon"
+                    company: "Amazon"
+                    title: "Full Stack Engineer, Prime Video"
+                    location: "Bengaluru, KA, IN"
+                    remote: false
+                    tech_stack: [ "javascript","typescript","react","node","aws" ]
+                    compensation: null
+                    url: "https://www.amazon.jobs/en/jobs/123456/full-stack-engineer"
+                    job_id: "123456"
+                    description_snippet: "Design and build scalable full-stack services…"
   /delete-jobs/{job_id}:
     delete:
       tags: [ Jobs ]

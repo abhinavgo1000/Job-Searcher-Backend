@@ -3,6 +3,9 @@ Flask==3.1.2
 flask-cors==6.0.1
 pymongo==4.15.1
 certifi==2025.8.3
+requests==2.32.5
+beautifulsoup4==4.13.5
+sendgrid==6.12.5
 python-dotenv
 flask-swagger-ui==5.21.0
 
@@ -10,12 +13,12 @@ flask-swagger-ui==5.21.0
 httpx==0.28.1
 
 # --- Data models / validation ---
-pydantic==2.11.8
+pydantic==2.11.9
 typing-extensions>=4.12.2
 pyyaml==6.0.2
 
 # --- OpenAI Agents SDK (for structured/typed agent output) ---
-openai-agents>=0.2.0
+openai-agents>=0.3.0
 
 # --- (Optional) ASGI server if you switch to async Flask/FastAPI ---
 # uvicorn[standard]==0.30.0

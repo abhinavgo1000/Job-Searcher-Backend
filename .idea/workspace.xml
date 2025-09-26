@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3e888351-81ee-4320-b400-ea1e90c06512" name="Changes" comment="job manager agent defined">
+    <list default="true" id="3e888351-81ee-4320-b400-ea1e90c06512" name="Changes" comment="job researcher agent, path and spec defined">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ai_agents/job_agents.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai_agents/job_agents.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/site_scraper.py" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/site_scraper.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/openapi.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/openapi.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -300,7 +297,15 @@
       <option name="project" value="LOCAL" />
       <updated>1758803541795</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="job researcher agent, path and spec defined">
+      <option name="closed" value="true" />
+      <created>1758877813895</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1758877813895</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -336,6 +341,7 @@
     <MESSAGE value="post spec type fixed" />
     <MESSAGE value="serper search and web scraper agents added" />
     <MESSAGE value="job manager agent defined" />
-    <option name="LAST_COMMIT_MESSAGE" value="job manager agent defined" />
+    <MESSAGE value="job researcher agent, path and spec defined" />
+    <option name="LAST_COMMIT_MESSAGE" value="job researcher agent, path and spec defined" />
   </component>
 </project>

@@ -1,7 +1,7 @@
 from agents import Agent
 from typing import List as _List
 
-from models.models import JobPosting, JobInsights
+from models.models import JobPosting, MultiJobInsights
 from helpers.site_scraper import scrape_page_content
 from helpers.web_searcher import serper_web_search
 from helpers.job_emailer import send_shortlisted_jobs_email
@@ -78,10 +78,20 @@ job_manager = Agent(
 tech_stack_researcher = Agent(
     name="TechStackResearcherIndia",
     instructions=(
-        "You are an insightful and helpful researcher."
-        "Given a JSON array of JobPosting objects, use the tools provided to search the web and create a JobInsights object."
-        "Provide a short summary of the skills required in the summary field, and the list of the required skills in the skill_set field"
+        "You are an expert tech job analyst for the Indian market."
+        "Given a JSON array of JobPosting objects, analyze each job and produce a MultiJobInsights object."
+        "For each job, provide:"
+        " - A concise summary of the overall skills and tech stack required."
+        " - A list of skills, where each skill includes:"
+        "     * name: The skill or technology name."
+        "     * description: A detailed explanation of why this skill is relevant for the job."
+        "     * proficiency_level: The required proficiency (e.g., Beginner, Intermediate, Expert)."
+        "     * category: The skill category (e.g., Frontend, Backend, DevOps, Data, Cloud, etc.)."
+        " - Agent feedback: Add notes or recommendations for the candidate, such as missing skills, upskilling advice, or market trends."
+        "Your output must be a MultiJobInsights object, with the jobs field listing job titles or IDs, and the insights field containing a JobInsights object for each job."
+        "Be thorough, accurate, and avoid inventing skills not evidenced in the job description."
+        "If information is missing, note it in the feedback field."
     ),
-    handoff_description="A job insights researcher",
-    output_type=JobInsights
+    handoff_description="A job insights researcher for multiple jobs with skill categorization and feedback",
+    output_type=MultiJobInsights
 )

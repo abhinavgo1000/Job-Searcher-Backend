@@ -47,7 +47,7 @@ class MultiPageSpider(Spider):
         self.visited = set()
         self.results = []
 
-    def parse(self, response):
+    def parse(self, response, *args, **kwargs):
         if len(self.visited) >= self.max_pages:
             return
         self.visited.add(response.url)

@@ -26,7 +26,17 @@ class JobPosting(BaseModel):
     job_id: Optional[str] = None
     description_snippet: Optional[str] = None
 
+class SkillDetail(BaseModel):
+    name: str
+    description: str
+    proficiency_level: str  # e.g., "Beginner", "Intermediate", "Expert"
+    category: Optional[str] = None  # e.g., "Frontend", "Backend", "DevOps"
+
 class JobInsights(BaseModel):
-    skill_set: List[str] = Field(default_factory=list, description="A collection of skills needed for this role")
-    job_post: JobPosting
     summary: str
+    skills: List[SkillDetail]
+    feedback: Optional[str] = None  # Agent feedback or notes
+
+class MultiJobInsights(BaseModel):
+    jobs: List[str]  # List of job IDs or titles
+    insights: List[JobInsights]

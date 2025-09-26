@@ -4,12 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3e888351-81ee-4320-b400-ea1e90c06512" name="Changes" comment="serper search and web scraper agents added">
+    <list default="true" id="3e888351-81ee-4320-b400-ea1e90c06512" name="Changes" comment="job manager agent defined">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ai_agents/job_agents.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai_agents/job_agents.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/helpers/site_scraper.py" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/site_scraper.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/openapi.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/openapi.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -291,7 +292,15 @@
       <option name="project" value="LOCAL" />
       <updated>1758798749196</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="job manager agent defined">
+      <option name="closed" value="true" />
+      <created>1758803541795</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1758803541795</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -326,6 +335,7 @@
     <MESSAGE value="delete functionality and specs fixed" />
     <MESSAGE value="post spec type fixed" />
     <MESSAGE value="serper search and web scraper agents added" />
-    <option name="LAST_COMMIT_MESSAGE" value="serper search and web scraper agents added" />
+    <MESSAGE value="job manager agent defined" />
+    <option name="LAST_COMMIT_MESSAGE" value="job manager agent defined" />
   </component>
 </project>

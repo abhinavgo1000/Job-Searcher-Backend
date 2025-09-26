@@ -98,20 +98,50 @@ paths:
                       description_snippet: "Build internal tools and client-facing web apps…"
   /job-insights:
     get:
-      tags: [Jobs]
-      summary: The insights for a given job
+      tags: [ Jobs ]
+      summary: Get tech stack insights for multiple jobs
       description: >
-        Returns a detailed insights of a given job posting after performing extensive web search
-        The returned insights contain the tech stack needed for the role along with the skills required to work upon.
+        Returns summaries, detailed skill requirements (with categories and proficiency levels), and agent feedback for one or more job postings.
       parameters:
         - in: query
-          name: id
+          name: job_id
+          required: true
           schema:
-            type: string
-          description: The job ID of a given posting.
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+          description: List of MongoDB ObjectIds of the job postings.
       responses:
         "200":
-          description: The insights of the selected job
+          description: Insights for the requested jobs
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MultiJobInsights"
+        "400":
+          description: Missing job_id(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                example:
+                  error: Missing job_id(s)
+        "404":
+          description: No valid jobs found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                example:
+                  error: No valid jobs found
   /saved-jobs:
     get:
       tags: [ Jobs ]
@@ -306,3 +336,38 @@ components:
           type: string
           nullable: true
           example: Short teaser text from the posting…
+    SkillDetail:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        proficiency_level:
+          type: string
+        category:
+          type: string
+          nullable: true
+    JobInsights:
+      type: object
+      properties:
+        summary:
+          type: string
+        skills:
+          type: array
+          items:
+            $ref: "#/components/schemas/SkillDetail"
+        feedback:
+          type: string
+          nullable: true
+    MultiJobInsights:
+      type: object
+      properties:
+        jobs:
+          type: array
+          items:
+            type: string
+        insights:
+          type: array
+          items:
+            $ref: "#/components/schemas/JobInsights"

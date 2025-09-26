@@ -241,6 +241,38 @@ def jobs_endpoint():
 
     return jsonify([j.model_dump() for j in jobs])
 
+@app.get("/job-insights")
+def job_insights():
+    job_ids = request.args.getlist("job_id")
+    if not job_ids:
+        return jsonify({"error": "Missing job_id(s)"}), 400
+
+    jobs = []
+    job_titles = []
+    for job_id in job_ids:
+        job = saved_jobs.find_one({"_id": ObjectId(job_id)})
+        if job:
+            job_titles.append(job.get("title", str(job_id)))
+            job.pop("_id", None)
+            jobs.append(job)
+    if not jobs:
+        return jsonify({"error": "No valid jobs found"}), 404
+
+    from ai_agents.job_agents import tech_stack_researcher
+    import asyncio
+    import json
+
+    result = asyncio.run(
+        Runner.run(
+            tech_stack_researcher,
+            input=json.dumps(jobs)
+        )
+    )
+    # Attach job titles/IDs for reference
+    output = result.final_output
+    output["jobs"] = job_titles
+    return jsonify(output)
+
 @app.post("/save-job")
 def save_job():
     data = request.get_json()

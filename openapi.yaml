@@ -363,10 +363,6 @@ components:
     MultiJobInsights:
       type: object
       properties:
-        jobs:
-          type: array
-          items:
-            type: string
         insights:
           type: array
           items:

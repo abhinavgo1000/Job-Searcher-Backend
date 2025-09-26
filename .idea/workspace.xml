@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3e888351-81ee-4320-b400-ea1e90c06512" name="Changes" comment="job researcher redefined based on search from filters">
-      <change beforePath="$PROJECT_DIR$/models/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/models.py" afterDir="false" />
+    <list default="true" id="3e888351-81ee-4320-b400-ea1e90c06512" name="Changes" comment="MultiJobInsights spec fixed">
+      <change beforePath="$PROJECT_DIR$/ai_agents/job_agents.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai_agents/job_agents.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -311,7 +311,23 @@
       <option name="project" value="LOCAL" />
       <updated>1758900226142</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="MultiJobInsights class fixed">
+      <option name="closed" value="true" />
+      <created>1758900478356</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1758900478356</updated>
+    </task>
+    <task id="LOCAL-00031" summary="MultiJobInsights spec fixed">
+      <option name="closed" value="true" />
+      <created>1758900583156</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1758900583157</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -349,6 +365,8 @@
     <MESSAGE value="job manager agent defined" />
     <MESSAGE value="job researcher agent, path and spec defined" />
     <MESSAGE value="job researcher redefined based on search from filters" />
-    <option name="LAST_COMMIT_MESSAGE" value="job researcher redefined based on search from filters" />
+    <MESSAGE value="MultiJobInsights class fixed" />
+    <MESSAGE value="MultiJobInsights spec fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="MultiJobInsights spec fixed" />
   </component>
 </project>

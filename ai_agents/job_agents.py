@@ -75,8 +75,6 @@ job_manager = Agent(
 )
 
 # ---- Agents SDK tech stack researcher ----
-from models.models import MultiJobInsights
-
 tech_stack_researcher = Agent(
     name="TechStackResearcherIndia",
     instructions=(

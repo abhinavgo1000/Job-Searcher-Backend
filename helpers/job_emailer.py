@@ -9,9 +9,6 @@ class EmailResponse(BaseModel):
     status_code: int
     body: str
 
-SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
-sg = sendgrid.SendGridAPIClient(api_key=SENDGRID_API_KEY)
-
 @function_tool(strict_mode=False)
 def send_html_email(subject: str, html_body: str) -> Dict[str, str]:
     """ Send out an email with the given subject and HTML body to all sales prospects """

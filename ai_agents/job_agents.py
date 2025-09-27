@@ -129,7 +129,7 @@ tech_stack_researcher = Agent(
         "Be thorough, accurate, and avoid inventing skills not evidenced in the job description or research."
         "If information is missing, note it in the feedback field."
         "Always use the serper_web_search tool for external research before finalizing your insights."
-        "Additionally, pass on the JSON."
+        "After generating the MultiJobInsights JSON output, display it at the API endpoint and also pass it to the InsightEmailWriter agent, which will generate and send an email using the EmailerAgent."
     ),
     handoff_description="A job insights researcher for multiple jobs with skill categorization, feedback, and web search research",
     output_type=MultiJobInsights,

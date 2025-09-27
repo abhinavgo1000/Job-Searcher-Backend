@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3e888351-81ee-4320-b400-ea1e90c06512" name="Changes" comment="duplicate import removed">
+    <list default="true" id="3e888351-81ee-4320-b400-ea1e90c06512" name="Changes" comment="emailer integrated with job insights">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ai_agents/job_agents.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai_agents/job_agents.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/helpers/job_emailer.py" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/job_emailer.py" afterDir="false" />
@@ -337,7 +337,15 @@
       <option name="project" value="LOCAL" />
       <updated>1758901082283</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="emailer integrated with job insights">
+      <option name="closed" value="true" />
+      <created>1758960059870</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1758960059870</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -352,7 +360,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fetching code added" />
     <MESSAGE value="requirements.txt added" />
     <MESSAGE value="dependency versions updated" />
     <MESSAGE value="fix added for blank data showing" />
@@ -377,6 +384,7 @@
     <MESSAGE value="MultiJobInsights class fixed" />
     <MESSAGE value="MultiJobInsights spec fixed" />
     <MESSAGE value="duplicate import removed" />
-    <option name="LAST_COMMIT_MESSAGE" value="duplicate import removed" />
+    <MESSAGE value="emailer integrated with job insights" />
+    <option name="LAST_COMMIT_MESSAGE" value="emailer integrated with job insights" />
   </component>
 </project>

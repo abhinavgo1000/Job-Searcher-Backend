@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3e888351-81ee-4320-b400-ea1e90c06512" name="Changes" comment="MultiJobInsights spec fixed">
+    <list default="true" id="3e888351-81ee-4320-b400-ea1e90c06512" name="Changes" comment="duplicate import removed">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ai_agents/job_agents.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai_agents/job_agents.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/job_emailer.py" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/job_emailer.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -327,7 +329,15 @@
       <option name="project" value="LOCAL" />
       <updated>1758900583157</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="duplicate import removed">
+      <option name="closed" value="true" />
+      <created>1758901082283</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1758901082283</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -342,7 +352,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="license file added" />
     <MESSAGE value="fetching code added" />
     <MESSAGE value="requirements.txt added" />
     <MESSAGE value="dependency versions updated" />
@@ -367,6 +376,7 @@
     <MESSAGE value="job researcher redefined based on search from filters" />
     <MESSAGE value="MultiJobInsights class fixed" />
     <MESSAGE value="MultiJobInsights spec fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="MultiJobInsights spec fixed" />
+    <MESSAGE value="duplicate import removed" />
+    <option name="LAST_COMMIT_MESSAGE" value="duplicate import removed" />
   </component>
 </project>

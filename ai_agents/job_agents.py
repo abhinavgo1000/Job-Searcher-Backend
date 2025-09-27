@@ -4,7 +4,7 @@ from typing import List as _List
 from models.models import JobPosting, MultiJobInsights
 from helpers.site_scraper import scrape_page_content
 from helpers.web_searcher import serper_web_search
-from helpers.job_emailer import send_shortlisted_jobs_email
+from helpers.job_emailer import send_html_email
 
 # ---- Agents SDK strict enforcer ----
 enforcer = Agent(
@@ -40,15 +40,51 @@ web_searcher = Agent(
     output_type=_List[JobPosting]
 )
 
-# ---- Agents SDK job emailer ----
-job_emailer = Agent(
-    name="JobsEmailerIndia",
+# ---- Agents SDK emailer ----
+subject_writer = Agent(
+    name="SubjectWriter",
     instructions=(
-        "You are a helpful agent tasked with sending emails containing the listed jobs as an array of JobPosting objects."
-        "Use the tools provided to send emails containing the listed jobs."
+        "You can write a subject for a job insights email."
+        "You are given a message and you need to write a subject for an email that is likely to get a response."
+    )
+)
+subject_tool = subject_writer.as_tool(
+    tool_name="SubjectWriter",
+    tool_description="Write a subject for a job insights email"
+)
+
+html_converter = Agent(
+    name="HtmlConverter",
+    instructions=(
+        "You can convert a text email body to an HTML email body."
+        "You are given a text email body which might have some markdown"
+        "and you need to convert it to an HTML email body with simple, clear, compelling layout and design."
+    )
+)
+html_tool = html_converter.as_tool(
+    tool_name="HtmlConverter",
+    tool_description="Convert a text email body to an HTML email body"
+)
+
+emailer_agent = Agent(
+    name="EmailerAgent",
+    instructions=(
+        "You are an email formatter and sender. You receive the body of an email to be sent."
+        "You first use the SubjectWriter tool to write a subject for the email, then use the HtmlConverter tool to convert the body to HTML."
+        "Finally, you use the send_html_email tool to send the email with the subject and HTML body."
     ),
-    tools=[send_shortlisted_jobs_email],
-    handoff_description="An emailing agent"
+    tools=[subject_tool, html_tool, send_html_email],
+    handoff_description="Convert an email to HTML and send it"
+)
+
+insight_email_writer = Agent(
+    name="InsightEmailWriter",
+    instructions=(
+        "You are an email writer that receives the job analysis in the form of a JSON array of type MultiJobInsights"
+        "Create an email of the analysis and hand off to the EmailerAgent for sending an email"
+    ),
+    handoff_description="Write an email from a given JSON format",
+    handoffs=[emailer_agent]
 )
 
 # ---- Redefining the job agents as tools ----
@@ -58,7 +94,7 @@ web_searcher_tool = web_searcher.as_tool(tool_name="JobsWebSearcherIndia", tool_
 
 # ---- Grouping the tools and handoffs ----
 tools = [enforcer_tool, job_scraper_tool, web_searcher_tool]
-handoffs = [job_emailer]
+handoffs = [emailer_agent]
 
 # ---- Agents SDK job manager ----
 job_manager = Agent(
@@ -93,8 +129,10 @@ tech_stack_researcher = Agent(
         "Be thorough, accurate, and avoid inventing skills not evidenced in the job description or research."
         "If information is missing, note it in the feedback field."
         "Always use the serper_web_search tool for external research before finalizing your insights."
+        "Additionally, pass on the JSON."
     ),
     handoff_description="A job insights researcher for multiple jobs with skill categorization, feedback, and web search research",
     output_type=MultiJobInsights,
-    tools=[serper_web_search]  # Register the tool with the agent
+    tools=[serper_web_search],  # Register the tool with the agent
+    handoffs=[insight_email_writer]
 )

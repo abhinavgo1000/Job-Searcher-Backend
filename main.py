@@ -21,7 +21,7 @@ from pymongo import MongoClient
 from ai_agents.job_agents import job_manager, tech_stack_researcher
 
 # ---- Schema ----
-from models.models import JobPosting
+from models.models import JobPosting, JobInsights
 
 # ---- Providers (async) ----
 from providers.providers_amazon import fetch_amazon_india
@@ -53,6 +53,7 @@ uri = f"mongodb+srv://{mongo_user}:{mongo_password}@{mongo_host}/?retryWrites=tr
 client = MongoClient(uri, tlsCAFile=certifi.where())
 db = client['jobs']
 saved_jobs = db['saved-jobs']
+saved_insights = db['saved-insights']
 
 OPENAPI_PATH = Path(__file__).parent / "openapi.yaml"
 SWAGGER_URL = "/docs"          # UI
@@ -291,6 +292,34 @@ def delete_job(job_id):
     result = saved_jobs.delete_one({"_id": object_id})
     if result.deleted_count == 0:
         return jsonify({"error": "Job not found"}), 404
+
+    return jsonify({"deleted_count": result.deleted_count}), 200
+
+@app.post("/save-insight")
+def save_insight():
+    data = request.get_json()
+    insight = JobInsights(**data)
+    result = saved_insights.insert_one(insight.model_dump())
+    print(result.acknowledged)
+    return jsonify({"message": "Insight saved successfully!"}), 201
+
+@app.get("/saved-insights")
+def fetch_saved_insights():
+    insights = list(saved_insights.find({}))
+    for insight in insights:
+        insight["_id"] = str(insight["_id"])  # Convert ObjectId to string
+    return jsonify(insights), 200
+
+@app.delete("/delete-insights/<string:insight_id>")
+def delete_insight(insight_id):
+    try:
+        object_id = ObjectId(insight_id)
+    except Exception:
+        return jsonify({"error": "Invalid insight ID"}), 400
+
+    result = saved_insights.delete_one({"_id": object_id})
+    if result.deleted_count == 0:
+        return jsonify({"error": "Insight not found"}), 404
 
     return jsonify({"deleted_count": result.deleted_count}), 200
 

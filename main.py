@@ -265,7 +265,12 @@ def job_insights():
             input=json.dumps(agent_input)
         )
     )
-    return jsonify([insight.model_dump() for insight in result.final_output.insights])
+    final_output = result.final_output
+    if isinstance(final_output, str):
+        return jsonify({"error": final_output}), 500
+    if hasattr(final_output, "insights"):
+        return jsonify([insight.model_dump() for insight in final_output.insights])
+    return jsonify({"error": "Unexpected agent output format"}), 500
 
 @app.post("/save-job")
 def save_job():

@@ -305,6 +305,24 @@ class JobPosting(BaseModel):
 
 ---
 
+## Helpers
+
+### Web Searcher
+
+* Uses Serper Google Search to perform web searches.
+* Returns the output in the form of title, link and snippet.
+
+### Site Scraper
+
+* A site scraper tool fo parse the HTML content of a given web page.
+* Uses a combination of Scrapy, Beautiful Soup and Selenium.
+
+### Emailer
+
+* An emailer tool that uses SendGrid API to send out emails in HTML format.
+
+---
+
 ## OpenAPI & Docs
 
 * OpenAPI YAML lives at `openapi.yaml`

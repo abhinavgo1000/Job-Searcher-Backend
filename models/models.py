@@ -33,6 +33,7 @@ class SkillDetail(BaseModel):
     category: Optional[str] = None  # e.g., "Frontend", "Backend", "DevOps"
 
 class JobInsights(BaseModel):
+    id: str | None = Field(default=None, description="Deterministic id if url/insight_id present, else random")
     summary: str
     skills: List[SkillDetail]
     feedback: Optional[str] = None  # Agent feedback or notes

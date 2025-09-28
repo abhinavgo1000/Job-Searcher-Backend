@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3e888351-81ee-4320-b400-ea1e90c06512" name="Changes" comment="pip dependencies versions updated">
+    <list default="true" id="3e888351-81ee-4320-b400-ea1e90c06512" name="Changes" comment="workspace updated">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -391,7 +391,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759051046600</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="workspace updated">
+      <option name="closed" value="true" />
+      <created>1759055269662</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1759055269662</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -409,7 +417,6 @@
     <MESSAGE value="dotenv load added" />
     <MESSAGE value="dotenv added in requirements file" />
     <MESSAGE value="python-dotenv added to requirements file" />
-    <MESSAGE value="workspace updated" />
     <MESSAGE value="flask-mysql added in requirements file" />
     <MESSAGE value="pymongo and certifi added in requirements file" />
     <MESSAGE value="agent enhancement WIP and mongodb save added" />
@@ -431,6 +438,7 @@
     <MESSAGE value="agent output for insights fixed to ensure structured output" />
     <MESSAGE value="specs for jobs and insights categorized" />
     <MESSAGE value="pip dependencies versions updated" />
-    <option name="LAST_COMMIT_MESSAGE" value="pip dependencies versions updated" />
+    <MESSAGE value="workspace updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="workspace updated" />
   </component>
 </project>

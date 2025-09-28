@@ -128,9 +128,9 @@ Delete a saved job posting by its database ID.
 
 | Name              | Type    |                                                    Default | Description                                                                                                                                      |
 | ----------------- | ------- | ---------------------------------------------------------: | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `position`               | string  |                                               `Full Stack` | Keyword(s) (any-token match).                                                                                                                    |
+| `position`               | string  |                                               - | Keyword(s) (any-token match).                                                                                                                    |
 | `company`        | string  |                                                          — | String list for companies to search.                                                                                          |
-| `years_experience`            | int  |                                                          — | Number of years of experience.                                                                                |
+| `years_experience`            | int  |                                                          `0` | Number of years of experience.                                                                                |
 | `remote`          | boolean |                                                     `true` | If `true`, performs the search based on the available remote roles. |
 
 **Examples**

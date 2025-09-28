@@ -96,52 +96,6 @@ paths:
                       url: "https://pwc.wd3.myworkdayjobs.com/en-US/Global_Experienced_Careers/job/..."
                       job_id: "R-98765"
                       description_snippet: "Build internal tools and client-facing web apps…"
-  /job-insights:
-    get:
-      tags: [ Jobs ]
-      summary: Get tech stack insights for multiple jobs
-      description: >
-        Returns summaries, detailed skill requirements (with categories and proficiency levels), and agent feedback for one or more job postings.
-      parameters:
-        - in: query
-          name: job_id
-          required: true
-          schema:
-            type: array
-            items:
-              type: string
-          style: form
-          explode: true
-          description: List of MongoDB ObjectIds of the job postings.
-      responses:
-        "200":
-          description: Insights for the requested jobs
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/MultiJobInsights"
-        "400":
-          description: Missing job_id(s)
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                example:
-                  error: Missing job_id(s)
-        "404":
-          description: No valid jobs found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                example:
-                  error: No valid jobs found
   /saved-jobs:
     get:
       tags: [ Jobs ]
@@ -259,6 +213,175 @@ paths:
                     type: string
                 example:
                   error: Job not found
+  /job-insights:
+    get:
+      tags: [ Insights ]
+      summary: Get tech stack insights for multiple jobs
+      description: >
+        Returns summaries, detailed skill requirements (with categories and proficiency levels), and agent feedback for one or more job postings.
+      parameters:
+        - in: query
+          name: job_id
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+          description: List of MongoDB ObjectIds of the job postings.
+      responses:
+        "200":
+          description: Insights for the requested jobs
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MultiJobInsights"
+        "400":
+          description: Missing insight_id(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                example:
+                  error: Missing insight_id(s)
+        "404":
+          description: No valid insights found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                example:
+                  error: No valid insights found
+  /save-insight:
+    post:
+      tags: [ Insights ]
+      summary: Save a job insight
+      description: >
+        Save a JobInsights object to the database.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/JobInsights"
+            examples:
+              sample:
+                value:
+                  summary: "Strong backend and cloud skills required."
+                  skills:
+                    - name: "Python"
+                      description: "Used for backend development."
+                      proficiency_level: "Expert"
+                      category: "Backend"
+                    - name: "AWS"
+                      description: "Cloud deployment and management."
+                      proficiency_level: "Intermediate"
+                      category: "Cloud"
+                  feedback: "Ensure hands-on experience with cloud platforms."
+      responses:
+        "201":
+          description: Insight saved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JobInsights"
+        "400":
+          description: Invalid insight data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                example:
+                  error: Invalid insight data
+
+  /saved-insights:
+    get:
+      tags: [ Insights ]
+      summary: List saved job insights
+      description: >
+        Returns all JobInsights objects saved in the database.
+      responses:
+        "200":
+          description: Array of saved job insights
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/JobInsights"
+              examples:
+                sample:
+                  value:
+                    - summary: "Strong backend and cloud skills required."
+                      skills:
+                        - name: "Python"
+                          description: "Used for backend development."
+                          proficiency_level: "Expert"
+                          category: "Backend"
+                        - name: "AWS"
+                          description: "Cloud deployment and management."
+                          proficiency_level: "Intermediate"
+                          category: "Cloud"
+                      feedback: "Ensure hands-on experience with cloud platforms."
+
+  /delete-insights/{insight_id}:
+    delete:
+      tags: [ Insights ]
+      summary: Delete a saved job insight by its database ID
+      description: >
+        Deletes a single JobInsights object from the database by its ID.
+      parameters:
+        - in: path
+          name: insight_id
+          required: true
+          schema:
+            type: string
+          description: The database ID of the insight to delete.
+      responses:
+        "200":
+          description: Insight deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted_count:
+                    type: integer
+                    description: Number of insights deleted (should be 1 if successful)
+                example:
+                  deleted_count: 1
+        "400":
+          description: Invalid insight ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                example:
+                  error: Invalid insight ID
+        "404":
+          description: Insight not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                example:
+                  error: Insight not found
 components:
   schemas:
     Compensation:

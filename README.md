@@ -1,15 +1,16 @@
 # Job-Searcher Backend (India Focus)
 
 Aggregates public job listings from **Amazon India**, **Workday** tenants (e.g., **PwC India**), and **Netflix (Eightfold)**, normalizes them into a common schema, and (optionally) validates the response using the **OpenAI Agents SDK** (strict structured output). Exposes a simple **Flask** API your **Next.js** or **SwiftUI** app can consume.
+Additionally, another **OpenAI Agents SDK** agent can be used to perform research on job insights using **Serper API** web search based on values like job position, companies, years of experience, and remote roles or not.
 
 ---
 
 ## Features
 
 * ⚡️ Async fetching with `httpx` (concurrent providers)
-* 🧱 Typed models via **Pydantic** (`JobPosting`, `Compensation`)
-* ✅ Optional strict schema enforcement using **Agents SDK** (`output_type=List[JobPosting]`)
-* 🔎 Simple query filters (`q`, `location`, `city`)
+* 🧱 Typed models via **Pydantic** (`JobPosting`, `Compensation`, `JobInsights`, `SkillDetail`)
+* ✅ Optional strict schema enforcement using **Agents SDK** (`output_type=List[JobPosting]`, `output_type=List[JobInsights]`)
+* 🔎 Simple query filters (`q`, `location`, `city`, `position`, `years_experience`, `remote`)
 * 🌐 CORS enabled for easy frontend dev
 * 📜 Built-in **OpenAPI** spec + **Swagger UI** (`/docs`)
 

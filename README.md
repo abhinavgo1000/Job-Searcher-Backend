@@ -38,6 +38,7 @@ Test it:
 
 ```
 GET http://localhost:5057/jobs?q=Full%20Stack&strict=false
+GET http://localhost:5057/job-insights?position=Full%20Stack&companies=deloitte,google&years_experience=8&remote=true
 ```
 
 ---
@@ -69,6 +70,163 @@ GET http://localhost:5057/jobs?q=Full%20Stack&strict=false
 **Response**: `200 OK` → `JobPosting[]` (see schema)
 
 ---
+
+### `POST /save-job`
+
+Save a job posting to the database.
+
+**Request body example:**
+```json
+{
+    "id": "a3b4d9e12f0c4b8a",
+    "source": "amazon",
+    "company": "Amazon",
+    "title": "Full Stack Engineer, Prime Video",
+    "location": "Bengaluru, KA, IN",
+    "remote": false,
+    "tech_stack": [
+      "javascript",
+      "typescript",
+      "react",
+      "node",
+      "aws"
+    ],
+    "compensation": null,
+    "url": "https://www.amazon.jobs/en/jobs/123456/full-stack-engineer",
+    "job_id": "123456",
+    "description_snippet": "Design and build scalable full-stack services…"
+  }
+```
+
+**Response:** `201 Created` → The saved `JobInsights` object.
+
+---
+
+### `GET /saved-jobs`
+
+List all saved job postings.
+
+**Response:** `200 OK` → Array of `JobPosting` objects.
+
+---
+
+### `DELETE /delete-jobs/{job_id}`
+
+Delete a saved job posting by its database ID.
+
+**Response:**  
+- `200 OK` → `{ "deleted_count": 1 }` if successful  
+- `404 Not Found` or `400 Bad Request` if the ID is invalid or not found
+
+---
+
+## Insight API
+
+### `GET /jobs`
+
+**Query parameters**
+
+| Name              | Type    |                                                    Default | Description                                                                                                                                      |
+| ----------------- | ------- | ---------------------------------------------------------: | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `position`               | string  |                                               `Full Stack` | Keyword(s) (any-token match).                                                                                                                    |
+| `company`        | string  |                                                          — | String list for companies to search.                                                                                          |
+| `years_experience`            | int  |                                                          — | Number of years of experience.                                                                                |
+| `remote`          | boolean |                                                     `true` | If `true`, performs the search based on the available remote roles. |
+
+**Examples**
+
+```
+/job-insights?position=Full%20Stack&companies=deloitte,google&years_experience=8&remote=true
+```
+
+**Response**: `200 OK` → `JobInsights[]` (see schema)
+
+---
+
+### `POST /save-insight`
+
+Save a job insight to the database.
+
+**Request body example:**
+```json
+{
+  "summary": "Strong backend and cloud skills required.",
+  "skills": [
+    {
+      "name": "Python",
+      "description": "Used for backend development.",
+      "proficiency_level": "Expert",
+      "category": "Backend"
+    },
+    {
+      "name": "AWS",
+      "description": "Cloud deployment and management.",
+      "proficiency_level": "Intermediate",
+      "category": "Cloud"
+    }
+  ],
+  "feedback": "Ensure hands-on experience with cloud platforms."
+}
+```
+
+**Response:** `201 Created` → The saved `JobInsights` object.
+
+---
+
+### `GET /saved-insights`
+
+List all saved job insights.
+
+**Response:** `200 OK` → Array of `JobInsights` objects.
+
+---
+
+### `DELETE /delete-insights/{insight_id}`
+
+Delete a saved job insight by its database ID.
+
+**Response:**  
+- `200 OK` → `{ "deleted_count": 1 }` if successful  
+- `404 Not Found` or `400 Bad Request` if the ID is invalid or not found
+
+---
+
+## Example Insight API Calls
+
+* **Save an insight:**
+  ```
+  POST http://localhost:5057/save-insight
+  Content-Type: application/json
+
+  { ...see above example... }
+  ```
+
+* **List saved insights:**
+  ```
+  GET http://localhost:5057/saved-insights
+  ```
+
+* **Delete an insight:**
+  ```
+  DELETE http://localhost:5057/delete-insights/6510e1e6e1b2c8e1f0a1b2c3
+  ```
+
+---
+
+## Data Model (Insight)
+
+```python
+class SkillDetail(BaseModel):
+    name: str
+    description: str
+    proficiency_level: str
+    category: Optional[str] = None
+
+class JobInsights(BaseModel):
+    summary: str
+    skills: List[SkillDetail]
+    feedback: Optional[str] = None
+```
 
 ## Data Model (summary)
 
@@ -114,6 +272,7 @@ class JobPosting(BaseModel):
 ```
 .
 ├── app.py                         # Flask API & aggregation
+├── helpers/                       # Helper tools for web search, data scraping and emailing
 ├── models/                        # Pydantic models
 ├── providers/                     # Async providers for Amazon, Netflix, and Workday
 ├── normalizers                    # Amazon, Workday & Netflix → JobPosting[]
@@ -161,7 +320,7 @@ If you haven’t yet wired docs, add:
 pip install pyyaml flask-swagger-ui
 ```
 
-Then in `app.py`:
+Then in `main.py`:
 
 ```py
 import json, yaml
@@ -189,15 +348,32 @@ app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 ## Requirements
 
 ```txt
-Flask==3.0.3
-flask-cors==4.0.0
-httpx==0.27.0
-pydantic==2.8.2
+# --- Web API ---
+Flask==3.1.2
+flask-cors==6.0.1
+pymongo==4.15.1
+certifi==2025.8.3
+requests==2.32.5
+beautifulsoup4==4.14.0
+selenium==4.35.0
+scrapy==2.13.3
+sendgrid==6.12.5
+python-dotenv
+flask-swagger-ui==5.21.0
+
+# --- Async HTTP client for providers (Amazon / Workday / Netflix) ---
+httpx==0.28.1
+
+# --- Data models / validation ---
+pydantic==2.11.9
 typing-extensions>=4.12.2
-openai-agents>=0.2.0
-# docs (optional)
-pyyaml==6.0.2
-flask-swagger-ui==4.11.1
+pyyaml==6.0.3
+
+# --- OpenAI Agents SDK (for structured/typed agent output) ---
+openai-agents>=0.3.0
+
+# --- (Optional) ASGI server if you switch to async Flask/FastAPI ---
+# uvicorn[standard]==0.30.0
 ```
 
 Install:
@@ -219,6 +395,12 @@ pip install -r requirements.txt
 
   ```
   /jobs?q=Full%20Stack&city=Bengaluru&include_netflix=false&workday=pwc.wd3.myworkdayjobs.com:Global_Experienced_Careers:pwc&strict=false
+  ```
+
+  * ** (Insights) Full Stack remote roles in Deloitte and Google:**
+
+  ```
+  /job-insights?position=Full%20Stack&companies=deloitte,google&years_experience=8&remote=true
   ```
 
 ---

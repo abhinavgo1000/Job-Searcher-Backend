@@ -4,7 +4,7 @@ flask-cors==6.0.1
 pymongo==4.15.1
 certifi==2025.8.3
 requests==2.32.5
-beautifulsoup4==4.13.5
+beautifulsoup4==4.14.0
 selenium==4.35.0
 scrapy==2.13.3
 sendgrid==6.12.5
@@ -17,7 +17,7 @@ httpx==0.28.1
 # --- Data models / validation ---
 pydantic==2.11.9
 typing-extensions>=4.12.2
-pyyaml==6.0.2
+pyyaml==6.0.3
 
 # --- OpenAI Agents SDK (for structured/typed agent output) ---
 openai-agents>=0.3.0

@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3e888351-81ee-4320-b400-ea1e90c06512" name="Changes" comment="agent output for insights fixed to ensure structured output">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/openapi.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/openapi.yaml" afterDir="false" />
+    <list default="true" id="3e888351-81ee-4320-b400-ea1e90c06512" name="Changes" comment="specs for jobs and insights categorized">
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -376,7 +375,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759044446570</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="specs for jobs and insights categorized">
+      <option name="closed" value="true" />
+      <created>1759048981018</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1759048981018</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -391,7 +398,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="swagger ui added" />
     <MESSAGE value="comment text updated" />
     <MESSAGE value="dotenv load added" />
     <MESSAGE value="dotenv added in requirements file" />
@@ -416,6 +422,7 @@
     <MESSAGE value="code to save insights in db added" />
     <MESSAGE value="id field added" />
     <MESSAGE value="agent output for insights fixed to ensure structured output" />
-    <option name="LAST_COMMIT_MESSAGE" value="agent output for insights fixed to ensure structured output" />
+    <MESSAGE value="specs for jobs and insights categorized" />
+    <option name="LAST_COMMIT_MESSAGE" value="specs for jobs and insights categorized" />
   </component>
 </project>

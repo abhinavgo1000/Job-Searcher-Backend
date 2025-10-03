@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3e888351-81ee-4320-b400-ea1e90c06512" name="Changes" comment="workspace updated">
+    <list default="true" id="3e888351-81ee-4320-b400-ea1e90c06512" name="Changes" comment="pip dependency version updated">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
@@ -408,7 +408,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759058811564</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="pip dependency version updated">
+      <option name="closed" value="true" />
+      <created>1759216724044</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1759216724044</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -423,7 +431,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="dotenv load added" />
     <MESSAGE value="dotenv added in requirements file" />
     <MESSAGE value="python-dotenv added to requirements file" />
     <MESSAGE value="flask-mysql added in requirements file" />
@@ -448,6 +455,7 @@
     <MESSAGE value="specs for jobs and insights categorized" />
     <MESSAGE value="pip dependencies versions updated" />
     <MESSAGE value="workspace updated" />
-    <option name="LAST_COMMIT_MESSAGE" value="workspace updated" />
+    <MESSAGE value="pip dependency version updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="pip dependency version updated" />
   </component>
 </project>

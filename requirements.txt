@@ -1,11 +1,11 @@
 # --- Web API ---
 Flask==3.1.2
 flask-cors==6.0.1
-pymongo==4.15.1
+pymongo==4.15.2
 certifi==2025.8.3
 requests==2.32.5
 beautifulsoup4==4.14.2
-selenium==4.35.0
+selenium==4.36.0
 scrapy==2.13.3
 sendgrid==6.12.5
 python-dotenv

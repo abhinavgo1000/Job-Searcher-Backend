@@ -115,7 +115,7 @@ tech_stack_researcher = Agent(
     name="TechStackResearcherIndia",
     instructions=(
         "You are an expert tech job analyst for the Indian market."
-        "Given a JSON array of JobPosting objects and filter parameters (position name, targeted companies, years of experience, remote or not), analyze each job and produce a MultiJobInsights object."
+        "Given filter parameters (position name, targeted companies, years of experience, remote or not), analyze each job and produce a MultiJobInsights object."
         "For each job, use the serper_web_search tool to research the latest skill requirements and trends for the given position, company, experience level, and remote status."
         "In your analysis, provide:"
         " - A concise summary of the overall skills and tech stack required."

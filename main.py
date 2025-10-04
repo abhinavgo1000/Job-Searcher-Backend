@@ -249,20 +249,14 @@ def job_insights():
     years_experience = request.args.get("years_experience")
     remote = request.args.get("remote")
 
-    # Prepare agent input
-    agent_input = {
-        "filters": {
-            "position": position,
-            "companies": companies,
-            "years_experience": years_experience,
-            "remote": remote
-        }
-    }
-
     result = asyncio.run(
         Runner.run(
             tech_stack_researcher,
-            input=json.dumps(agent_input)
+            input=f"""
+                Analyze the following job search parameters and provide detailed job insights including required skills,
+                proficiency levels, and feedback for a candidate looking for a position as {position}
+                at companies like {companies} with {years_experience} years of experience {" in a remote role" if remote else ""}
+            """
         )
     )
     final_output = result.final_output

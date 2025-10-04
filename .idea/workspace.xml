@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3e888351-81ee-4320-b400-ea1e90c06512" name="Changes" comment="pip dependency version updated">
+    <list default="true" id="3e888351-81ee-4320-b400-ea1e90c06512" name="Changes" comment="insight researcher instructions updated">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ai_agents/job_agents.py" beforeDir="false" afterPath="$PROJECT_DIR$/ai_agents/job_agents.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -424,7 +424,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759464002441</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="insight researcher instructions updated">
+      <option name="closed" value="true" />
+      <created>1759494686826</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1759494686827</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -439,7 +447,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="dotenv added in requirements file" />
     <MESSAGE value="python-dotenv added to requirements file" />
     <MESSAGE value="flask-mysql added in requirements file" />
     <MESSAGE value="pymongo and certifi added in requirements file" />
@@ -464,6 +471,7 @@
     <MESSAGE value="pip dependencies versions updated" />
     <MESSAGE value="workspace updated" />
     <MESSAGE value="pip dependency version updated" />
-    <option name="LAST_COMMIT_MESSAGE" value="pip dependency version updated" />
+    <MESSAGE value="insight researcher instructions updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="insight researcher instructions updated" />
   </component>
 </project>

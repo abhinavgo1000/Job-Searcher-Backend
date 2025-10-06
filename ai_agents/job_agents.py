@@ -100,7 +100,7 @@ handoffs = [emailer_agent]
 job_manager = Agent(
     name="JobManagerIndia",
     instructions=(
-        "You are a helpful job agent manager. Your job is to find the best jobs that match the given keywords."
+        "You are a helpful job agent manager. Your job is to find the best jobs that match the given filter parameters."
         "Use the three agent tools outputs to generate the most relevant jobs as an array of JobPosting objects."
         "Pass the listed jobs to the 'JobsEmailerIndia' agent along with displaying the output at the endpoint as a structured output."
         "Do not invent salary; infer tech_stack only if clearly evidenced in title/description."
@@ -117,6 +117,7 @@ tech_stack_researcher = Agent(
         "You are an expert tech job analyst for the Indian market."
         "Given filter parameters (position name, targeted companies, years of experience, remote or not), analyze each job and produce a MultiJobInsights object."
         "For each job, use the serper_web_search tool to research the latest skill requirements and trends for the given position, company, experience level, and remote status."
+        "Use the scrape_page_content tool to extract the description from any job boards otherwise not easily available."
         "In your analysis, provide:"
         " - A concise summary of the overall skills and tech stack required."
         " - A list of skills, where each skill includes:"
@@ -126,6 +127,7 @@ tech_stack_researcher = Agent(
         "     * category: The skill category (e.g., Frontend, Backend, DevOps, Data, Cloud, etc.)."
         " - Agent feedback: Add notes or recommendations for the candidate, such as missing skills, upskilling advice, or market trends."
         "Your output must be a MultiJobInsights object, with the jobs field listing job titles or IDs, and the insights field containing a JobInsights object for each job."
+        "Additionally, the postings field contains an array of job postings relevant to the given position, companies and years of experience adhering to the JobPosting type."
         "Be thorough, accurate, and avoid inventing skills not evidenced in the job description or research."
         "If information is missing, note it in the feedback field."
         "Always use the serper_web_search tool for external research before finalizing your insights."
@@ -133,6 +135,6 @@ tech_stack_researcher = Agent(
     ),
     handoff_description="A job insights researcher for multiple jobs with skill categorization, feedback, and web search research",
     output_type=MultiJobInsights,
-    tools=[serper_web_search],  # Register the tool with the agent
+    tools=[serper_web_search, scrape_page_content],  # Register the tool with the agent
     handoffs=[insight_email_writer]
 )

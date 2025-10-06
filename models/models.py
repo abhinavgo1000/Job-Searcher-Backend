@@ -36,6 +36,7 @@ class JobInsights(BaseModel):
     summary: str
     skills: List[SkillDetail]
     feedback: Optional[str] = None  # Agent feedback or notes
+    postings: Optional[List[JobPosting]] = None
 
 class MultiJobInsights(BaseModel):# List of job IDs or titles
     insights: List[JobInsights]
